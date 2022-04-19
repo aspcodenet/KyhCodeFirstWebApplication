@@ -40,10 +40,15 @@ public class TeamController : Controller
     //{
 
     //}
-    //public IActionResult Edit()
-    //{
-
-    //}
+    public IActionResult Edit(int id)
+    {
+        var team = _context.Teams.FirstOrDefault(e => e.Id == id);
+        var model = new TeamEditViewModel();
+        model.Id = team.Id;
+        model.Founded = team.FoundedYear;
+        model.Name = team.Name;
+        return View(model);
+    }
 
 
 }
