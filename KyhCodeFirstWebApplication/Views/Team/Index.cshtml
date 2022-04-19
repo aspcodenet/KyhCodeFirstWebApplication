@@ -1,5 +1,14 @@
-﻿@{
+﻿@model KyhCodeFirstWebApplication.ViewModels.TeamIndexViewModel
+
+
+@{
     ViewData["Title"] = "Teams";
 }
 
 <h1>Alla lagen </h1>
+<ul>
+@foreach (var team in Model.Items)
+{
+    <li>@team.Name</li>
+}
+</ul>

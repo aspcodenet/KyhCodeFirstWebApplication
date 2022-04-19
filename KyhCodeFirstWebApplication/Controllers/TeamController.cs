@@ -33,7 +33,7 @@ public class TeamController : Controller
         };
 
         //Delegera till en View
-        return View();
+        return View(model);
 
     }
     //public IActionResult New()
