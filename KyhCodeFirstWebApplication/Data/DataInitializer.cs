@@ -14,5 +14,17 @@ public class DataInitializer
     public void SeedData()
     {
         _context.Database.Migrate();
+        SeedTeams();
+    }
+
+    private void SeedTeams()
+    {
+        if (!_context.Teams.Any(e => e.Name == "DIF"))
+        {
+            _context.Teams.Add(new Team {City = "Stockholm", FoundedYear = 1901, 
+                Name = "DIF"});
+        }
+
+        _context.SaveChanges();
     }
 }

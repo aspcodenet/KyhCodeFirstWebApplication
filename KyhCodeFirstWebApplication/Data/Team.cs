@@ -12,4 +12,6 @@ public class Team
     [MaxLength(50)]
     public string City { get; set; }
     public int FoundedYear { get; set; }
+
+    public List<Player> Players { get; set; } = new List<Player>();
 }
