@@ -7,9 +7,8 @@ public interface IRegistrationService
     //          ska lyckas ifall man inte finns
     //      ska INTE skicka email om man finns
     //      ska skicka email om man finns
-    //      vi tillåter bara Oslo som stad i Norge 
     //      vi tillåter bara @hej.se och @hej.com som epostadress
-
+    //      vi tillåter bara Oslo som stad i Norge 
     public enum RegistrationStatus
     {
         Ok,
