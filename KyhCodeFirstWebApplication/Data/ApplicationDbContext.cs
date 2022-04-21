@@ -12,4 +12,6 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Team> Teams { get; set; }
     public DbSet<Player> Players { get; set; }
+
+    public DbSet<MailingListUser> MailingListUsers { get; set; }
 }
