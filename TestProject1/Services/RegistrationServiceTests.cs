@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KyhCodeFirstWebApplication.Data;
 using KyhCodeFirstWebApplication.Services;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,10 @@ public class RegistrationServiceTests
     [TestMethod]
     public void When_ok_should_store_in_database()
     {
+        //if (_context.MailingListUsers.Any(e => e.Email == "36131@hej.se"))
+        //{
+        //    _context.MailingListUsers.Remove()
+        //}
         var result = _sut.Register("36131@hej.se", "", "", "");
         Assert.IsNotNull(_context.MailingListUsers.FirstOrDefault(e=>e.Email == "36131@hej.se"));
     }
