@@ -1,4 +1,5 @@
-﻿using KyhCodeFirstWebApplication.Data;
+﻿using System.Linq;
+using KyhCodeFirstWebApplication.Data;
 using KyhCodeFirstWebApplication.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,11 +21,16 @@ public class RegistrationServiceTests
 {
     private RegistrationService _sut; // System under test
     private readonly FakeEmailSenderService _emailSender;
+    private ApplicationDbContext _context;
 
     public RegistrationServiceTests()
     {
         _emailSender = new FakeEmailSenderService();
-        _sut = new RegistrationService(_emailSender);
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "Test")
+            .Options;
+        _context = new ApplicationDbContext(options);
+        _sut = new RegistrationService(_emailSender, _context);
     }
 
     [TestMethod]
@@ -40,6 +46,15 @@ public class RegistrationServiceTests
         var result = _sut.Register("stefan@hej.se", "", "", "");
         Assert.IsTrue(_emailSender.Called);
     }
+
+
+    [TestMethod]
+    public void When_ok_should_store_in_database()
+    {
+        var result = _sut.Register("36131@hej.se", "", "", "");
+        Assert.IsNotNull(_context.MailingListUsers.FirstOrDefault(e=>e.Email == "36131@hej.se"));
+    }
+
 
 
 
