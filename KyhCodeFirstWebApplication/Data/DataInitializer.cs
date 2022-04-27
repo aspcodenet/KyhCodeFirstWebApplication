@@ -24,6 +24,26 @@ public class DataInitializer
             _context.Teams.Add(new Team {City = "Stockholm", FoundedYear = 1901, 
                 Name = "DIF"});
         }
+        if (!_context.Teams.Any(e => e.Name == "AIK"))
+        {
+            _context.Teams.Add(new Team
+            {
+                City = "Solna",
+                FoundedYear = 1899,
+                Name = "AIK"
+            });
+        }
+
+        if (!_context.Teams.Any(e => e.Name == "Södertälje SK"))
+        {
+            _context.Teams.Add(new Team
+            {
+                City = "Södertälje",
+                FoundedYear = 1111,
+                Name = "Södertälje SK"
+            });
+        }
+
 
         _context.SaveChanges();
     }
