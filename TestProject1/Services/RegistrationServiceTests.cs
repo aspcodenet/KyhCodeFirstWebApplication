@@ -37,7 +37,12 @@ public class RegistrationServiceTests
     [TestMethod]
     public void When_using_hej_se_should_return_ok()
     {
+        // A
+
+        // ACT
         var result = _sut.Register("stefan@hej.se", "", "", "");
+
+        //Assert
         Assert.AreEqual(IRegistrationService.RegistrationStatus.Ok, result);
     }
 

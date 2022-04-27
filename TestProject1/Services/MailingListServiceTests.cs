@@ -34,18 +34,13 @@ public class MailingListServiceTests
         _context.SaveChanges();
 
 
-
         // Act
         _sut.SendEmail("stefan@hej.se", "Hej", "nytt mailutckick bla bla");
-
-
 
         //Assert
         var user = _context.MailingListUsers.Include(e=>e.Events)
             .First(e => e.Email == "stefan@hej.se");
-
         var ev = user.Events.Last();
-
         Assert.AreEqual("mail sent", ev.Action);
 
     }
