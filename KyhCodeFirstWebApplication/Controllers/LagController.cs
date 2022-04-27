@@ -1,6 +1,8 @@
 ﻿using KyhCodeFirstWebApplication.Data;
+using KyhCodeFirstWebApplication.DTO;
 using KyhCodeFirstWebApplication.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KyhCodeFirstWebApplication.Controllers;
 
@@ -17,16 +19,35 @@ public class LagController : ControllerBase
 
     public IActionResult Index()
     {
-        return Ok(_context.Teams.ToList());
+        return Ok(_context.Teams.Select(e=>new LagItemDTO
+        {
+            City  = e.City,
+            FoundedYear = e.FoundedYear,
+            Id = e.Id,
+            Name = e.Name
+        }).ToList());
 
     }
 
     [Route("{id}")]
     public IActionResult GetOne(int id)
     {
-        var team = _context.Teams.FirstOrDefault(e => e.Id == id);
+        var team = _context.Teams.Include(e=>e.Players).FirstOrDefault(e => e.Id == id);
         if (team == null)
             return NotFound();
+        var ret = new LagDTO
+        {
+            FoundedYear = team.FoundedYear,
+            Name = team.Name,
+            City = team.City,
+            Id = team.Id,
+            Players = team.Players.Select(p => new PlayerDTO
+            {
+                Id = p.Id,
+                Name = p.Name,
+                JerseyNumber = p.JerseyNumber,
+            }).ToList()
+        };
         return Ok(team);
     }
 
