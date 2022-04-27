@@ -48,7 +48,7 @@ public class LagController : ControllerBase
                 JerseyNumber = p.JerseyNumber,
             }).ToList()
         };
-        return Ok(team);
+        return Ok(ret);
     }
 
 }
