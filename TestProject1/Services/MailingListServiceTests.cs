@@ -25,7 +25,6 @@ public class MailingListServiceTests
     public void When_sending_mail_a_log_event_should_be_created()
     {
         // Arrange
-
         _context.MailingListUsers.Add(new MailingListUser
         {
             City = "321321",
