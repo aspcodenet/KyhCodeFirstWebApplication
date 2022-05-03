@@ -1,0 +1,19 @@
+﻿@model KyhCodeFirstWebApplication.ViewModels.KrisInfoListViewModel
+
+
+@{
+    ViewData["Title"] = "Teams";
+}
+
+<h1>Alla krisinfos </h1>
+<ul>
+@foreach (var team in Model.Items)
+{
+    <li>
+        <a asp-controller="Team" asp-action="Edit" asp-route-id="@team.Identitifer">
+            @team.Headline
+        </a>
+        
+    </li>
+}
+</ul>
