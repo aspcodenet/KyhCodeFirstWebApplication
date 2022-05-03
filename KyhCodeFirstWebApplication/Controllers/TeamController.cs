@@ -61,6 +61,7 @@ public class TeamController : Controller
             team.FoundedYear = model.Founded;
             team.Name = model.Name;
             team.City = model.City;
+            return RedirectToAction(nameof(Index));
         }
         return View(model);
     }
