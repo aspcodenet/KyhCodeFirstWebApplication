@@ -13,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
 builder.Services.AddTransient<DataInitializer>();
+builder.Services.AddTransient<IKrisInfoService, KrisInfoService>();
+builder.Services.Configure<KrisInfoSettings>(builder.Configuration.GetSection("KrisInfo"));
 
 var app = builder.Build();
 

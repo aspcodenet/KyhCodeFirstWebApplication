@@ -1,23 +1,31 @@
-﻿using KyhCodeFirstWebApplication.ViewModels;
+﻿using KyhCodeFirstWebApplication.Services;
+using KyhCodeFirstWebApplication.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KyhCodeFirstWebApplication.Controllers;
 
 public class KrisController : Controller
 {
-    private readonly IConfiguration _configuration;
+    private readonly IKrisInfoService _krisInfoService;
 
-    public KrisController(IConfiguration configuration)
+    public KrisController(IKrisInfoService krisInfoService)
     {
-        _configuration = configuration;
+        _krisInfoService = krisInfoService;
     }
 
     // GET
     public IActionResult Index()
     {
         var model = new KrisInfoListViewModel();
-        model.Items = new List<KrisInfoListViewModel.KrisInfoListItemViewModel>();
-        //Hämta alla från den urlen
+        model.Items = _krisInfoService.GetLatest().Select(e=>new
+            KrisInfoListViewModel.KrisInfoListItemViewModel
+            {
+                Headline = e.Headline,
+                Identitifer = e.Identitifer
+            }
+            ).ToList();
+
+
 
 
         return View(model);
