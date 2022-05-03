@@ -47,8 +47,24 @@ public class TeamController : Controller
         model.Id = team.Id;
         model.Founded = team.FoundedYear;
         model.Name = team.Name;
+        model.City = team.City;
         return View(model);
     }
+
+
+    [HttpPost]
+    public IActionResult Edit(TeamEditViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var team = _context.Teams.FirstOrDefault(e => e.Id == model.Id);
+            team.FoundedYear = model.Founded;
+            team.Name = model.Name;
+            team.City = model.City;
+        }
+        return View(model);
+    }
+
 
 
 }
