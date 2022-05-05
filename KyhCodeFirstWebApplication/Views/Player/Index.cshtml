@@ -1,0 +1,23 @@
+﻿@model KyhCodeFirstWebApplication.ViewModels.PlayerIndexViewModel
+
+
+@{
+    ViewData["Title"] = "Alla players";
+}
+
+<h1>Alla spelare </h1>
+<ul>
+    @foreach (var player in Model.Items)
+    {
+        <li>
+            <a asp-controller="Player" asp-action="Edit" asp-route-id="@player.Id">
+                @player.Name
+            </a>
+        
+        </li>
+    }
+</ul>
+<a asp-controller="Player" asp-action="New">
+    Skapa ny
+</a>
+
