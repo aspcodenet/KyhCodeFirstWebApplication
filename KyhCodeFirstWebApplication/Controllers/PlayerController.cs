@@ -1,4 +1,6 @@
-﻿using KyhCodeFirstWebApplication.Data;
+﻿using System.Runtime.InteropServices;
+using AutoMapper;
+using KyhCodeFirstWebApplication.Data;
 using KyhCodeFirstWebApplication.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,20 +9,26 @@ namespace KyhCodeFirstWebApplication.Controllers;
 public class PlayerController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public PlayerController(ApplicationDbContext context)
+    public PlayerController(ApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
 
     [HttpGet]
     public IActionResult Edit(int id) //OnGet
     {
-        var model = new PlayerEditViewModel();
         var player = _context.Players.First(p => p.Id == id);
-        model.JerseyNumber = player.JerseyNumber;
-        model.Name = player.Name;
+
+        var model = _mapper.Map<PlayerEditViewModel>(player);
+
+
+        //model.JerseyNumber = player.JerseyNumber;
+        //model.Name = player.Name;
+        //model.Description = player.Description;
         return View(model);
     }
 
@@ -30,8 +38,12 @@ public class PlayerController : Controller
         if (ModelState.IsValid)
         {
             var player = _context.Players.First(p => p.Id == id);
-            player.JerseyNumber = model.JerseyNumber;
-            player.Name = model.Name;
+            _mapper.Map(model, player);
+            //player.JerseyNumber = model.JerseyNumber;
+            //player.Name = model.Name;
+            //player.Description = model.Description;
+
+
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
@@ -56,8 +68,10 @@ public class PlayerController : Controller
         if (ModelState.IsValid)
         {
             var player = new Player();
+            //player = Mappa(model);
             player.Name = model.Name;
             player.JerseyNumber = model.JerseyNumber;
+            player.Description = model.Description;
             _context.Players.Add(player);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));

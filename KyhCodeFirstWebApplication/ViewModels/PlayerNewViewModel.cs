@@ -10,4 +10,6 @@ public class PlayerNewViewModel
 
     [Range(1,100)]
     public int JerseyNumber { get; set; }
+
+    public string Description { get; set; }
 }

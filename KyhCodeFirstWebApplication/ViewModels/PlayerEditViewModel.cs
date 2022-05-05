@@ -9,6 +9,8 @@ public class PlayerEditViewModel
     public string Name { get; set; }
 
     [Range(1, 100)]
-    public int JerseyNumber { get; set; }
+    public int Trojnummer{ get; set; }
+
+    public string Description { get; set; }
 
 }
