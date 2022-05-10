@@ -5,6 +5,7 @@ using KyhCodeFirstWebApplication.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NToastNotify;
 
 
 var SecretKey = "fgjk437hasjk34jk";
@@ -40,6 +41,12 @@ builder.Services.AddTransient<IKrisInfoService, KrisInfoService>();
 builder.Services.Configure<KrisInfoSettings>(builder.Configuration.GetSection("KrisInfo"));
 builder.Services.AddAutoMapper(typeof(PlayerProfile));
 
+builder.Services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+{
+    ProgressBar = false,
+    PositionClass = ToastPositions.TopCenter
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -67,6 +74,8 @@ app.UseRouting();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseNToastNotify();
 
 app.MapControllerRoute(
     name: "default",

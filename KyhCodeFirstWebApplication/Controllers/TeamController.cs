@@ -1,6 +1,7 @@
 ﻿using KyhCodeFirstWebApplication.Data;
 using KyhCodeFirstWebApplication.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 
 namespace KyhCodeFirstWebApplication.Controllers;
 
@@ -8,11 +9,15 @@ namespace KyhCodeFirstWebApplication.Controllers;
 public class TeamController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly IToastNotification _toastNotification;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public TeamController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+    public TeamController(ApplicationDbContext context,
+        IToastNotification toastNotification,
+        IWebHostEnvironment webHostEnvironment)
     {
         _context = context;
+        _toastNotification = toastNotification;
         _webHostEnvironment = webHostEnvironment;
     }
 
@@ -68,6 +73,7 @@ public class TeamController : Controller
             if(model.Bild != null)
                 team.ImageFileName = SaveNewFile( model.Bild );
             _context.SaveChanges();
+            _toastNotification.AddSuccessToastMessage("Denna sparades ok");
             return RedirectToAction(nameof(Index));
         }
         return View(model);
