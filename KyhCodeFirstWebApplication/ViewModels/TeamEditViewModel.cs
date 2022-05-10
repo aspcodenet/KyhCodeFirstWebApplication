@@ -6,4 +6,7 @@ public class TeamEditViewModel
     public string Name { get; set; }
     public int Founded { get; set; }
     public string City { get; set; }
+
+    public string? PathToImage { get; set; }
+    public IFormFile? Bild { get; set; }
 }

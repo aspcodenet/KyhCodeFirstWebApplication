@@ -1,9 +1,31 @@
+using System.Text;
 using KyhCodeFirstWebApplication.Data;
 using KyhCodeFirstWebApplication.Infrastructure.Profiles;
 using KyhCodeFirstWebApplication.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
+
+var SecretKey = "fgjk437hasjk34jk";
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = false,
+            ValidIssuer = "",
+            ValidAudience = "",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey))
+        };
+    });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -42,6 +64,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseCors("AllowAll");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

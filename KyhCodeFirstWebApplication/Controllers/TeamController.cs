@@ -8,10 +8,12 @@ namespace KyhCodeFirstWebApplication.Controllers;
 public class TeamController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public TeamController(ApplicationDbContext context)
+    public TeamController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
     {
         _context = context;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     /*
@@ -48,6 +50,8 @@ public class TeamController : Controller
         model.Founded = team.FoundedYear;
         model.Name = team.Name;
         model.City = team.City;
+        if(!string.IsNullOrEmpty(team.ImageFileName))
+            model.PathToImage = "/uploaded/" + team.ImageFileName;
         return View(model);
     }
 
@@ -61,11 +65,27 @@ public class TeamController : Controller
             team.FoundedYear = model.Founded;
             team.Name = model.Name;
             team.City = model.City;
+            if(model.Bild != null)
+                team.ImageFileName = SaveNewFile( model.Bild );
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
         return View(model);
     }
 
+    private string SaveNewFile(IFormFile modelBild)
+    {   // laddar upp 0x0.jpg
+        // fullFileName = "3321-321-321-321asda-dsa0x0.jpg"
+        string fullFileName = Guid.NewGuid().ToString() + modelBild.FileName;
+        string fullPath = Path.Combine(_webHostEnvironment.WebRootPath,
+            "uploaded", 
+            fullFileName);
 
+        using (var stream = new FileStream(fullPath, FileMode.Create))
+        {
+            modelBild.CopyTo(stream);
+        }
 
+        return fullFileName;
+    }
 }

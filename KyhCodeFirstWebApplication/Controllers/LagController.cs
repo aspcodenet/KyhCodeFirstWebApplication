@@ -1,6 +1,7 @@
 ﻿using KyhCodeFirstWebApplication.Data;
 using KyhCodeFirstWebApplication.DTO;
 using KyhCodeFirstWebApplication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ public class LagController : ControllerBase
         _context = context;
     }
 
+
+    [Authorize(Roles="Admin")]
     [HttpDelete]
     [Route("{id}")]
     public IActionResult Delete(int id)
@@ -30,6 +33,8 @@ public class LagController : ControllerBase
 
 
 
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Customer")]
     [HttpPut]
     [Route("{id}")]
     public IActionResult Uppdatera(int id, UpdateLagDTO laget)
@@ -83,6 +88,7 @@ public class LagController : ControllerBase
 
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     [Route("{id}")]
     public IActionResult GetOne(int id)

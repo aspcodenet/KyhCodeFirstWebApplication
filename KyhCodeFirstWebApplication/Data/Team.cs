@@ -14,4 +14,7 @@ public class Team
     public int FoundedYear { get; set; }
 
     public List<Player> Players { get; set; } = new List<Player>();
+
+    [MaxLength(100)]
+    public string ImageFileName { get; set; }
 }
